@@ -1,10 +1,15 @@
 import { ChangeEvent, Component } from 'react';
 import TopSection from '../TopSection/TopSection';
+import {
+  StarshipShortProperties,
+  getStarships,
+} from '../../api/StarWarsService';
 import BottomSection from '../BottomSection/BottomSection';
 
 interface SearchPageState {
   inputValue: string;
-  data: string[] | [];
+  data: StarshipShortProperties[];
+  loading: boolean;
 }
 
 const localStorageKeyName = 'savedInputValue';
@@ -13,19 +18,34 @@ class SearchPage extends Component<Record<string, never>, SearchPageState> {
   state = {
     inputValue: '',
     data: [],
+    loading: true,
   };
 
-  componentDidMount(): void {
+  async componentDidMount(): Promise<void> {
     const storageData = localStorage.getItem(localStorageKeyName) ?? '';
     this.setState({
       inputValue: storageData,
     });
+    await this.setStateResponse(storageData);
   }
 
-  handleSearch = () => {
+  setStateResponse = async (searchQuery: string) => {
+    this.setState({
+      loading: true,
+    });
+    const data = await getStarships(searchQuery);
+    if (data) {
+      this.setState({
+        data: data,
+        loading: false,
+      });
+    }
+  };
+
+  handleSearch: () => void = async () => {
     const { inputValue } = this.state;
     localStorage.setItem(localStorageKeyName, inputValue);
-    console.log(inputValue);
+    await this.setStateResponse(inputValue);
   };
   handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     this.setState({
@@ -33,7 +53,7 @@ class SearchPage extends Component<Record<string, never>, SearchPageState> {
     });
   };
   render() {
-    const { inputValue } = this.state;
+    const { inputValue, loading, data } = this.state;
     return (
       <main>
         <TopSection
@@ -41,7 +61,7 @@ class SearchPage extends Component<Record<string, never>, SearchPageState> {
           handlerSearch={this.handleSearch}
           inputValue={inputValue}
         />
-        <BottomSection />
+        <BottomSection loadingState={loading} data={data} />
       </main>
     );
   }

@@ -1,11 +1,21 @@
 import { PureComponent } from 'react';
 import BottomCardList from '../BottomCardList/BottomCardList';
-
-class BottomSection extends PureComponent {
+import { StarshipShortProperties } from '../../api/StarWarsService';
+interface BottomSectionProp {
+  loadingState: boolean;
+  data: StarshipShortProperties[];
+}
+class BottomSection extends PureComponent<BottomSectionProp> {
   render() {
+    const { data } = this.props;
     return (
       <section>
-        <BottomCardList />
+        <h1>Starships from The Star Wars</h1>
+        <h2>
+          A Starship resource is a single transport craft that has hyperdrive
+          capability.
+        </h2>
+        <BottomCardList data={data} />
       </section>
     );
   }

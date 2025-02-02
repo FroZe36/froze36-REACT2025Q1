@@ -1,8 +1,20 @@
 import { PureComponent } from 'react';
+import { StarshipShortProperties } from '../../api/StarWarsService';
+import BottomCard from '../BottomCard/BottomCard';
 
-class BottomCardList extends PureComponent {
+interface BottomCardListProp {
+  data: StarshipShortProperties[];
+}
+class BottomCardList extends PureComponent<BottomCardListProp> {
   render() {
-    return <div>CardList</div>;
+    const { data } = this.props;
+    return (
+      <ul>
+        {data.map((item) => (
+          <BottomCard starship={{ ...item }} key={item.name} />
+        ))}
+      </ul>
+    );
   }
 }
 
