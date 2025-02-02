@@ -3,6 +3,7 @@ import BottomCardList from '../BottomCardList/BottomCardList';
 import { StarshipShortProperties } from '../../api/StarWarsService';
 import { Spinner } from '../Spinner/Spinner';
 import './BottomSection.scss';
+import ButtonError from '../ButtonError/ButtonError';
 interface BottomSectionProp {
   loadingState: boolean;
   data: StarshipShortProperties[];
@@ -18,6 +19,7 @@ class BottomSection extends PureComponent<BottomSectionProp> {
           capability.
         </h2>
         {loadingState ? <Spinner /> : <BottomCardList data={data} />}
+        <ButtonError />
       </section>
     );
   }
