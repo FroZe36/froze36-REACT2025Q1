@@ -1,12 +1,20 @@
-import { PureComponent } from 'react';
+import { ChangeEvent, PureComponent } from 'react';
 import TopSectionInput from '../TopSectionInput/TopSectionInput';
 import TopSectionButton from '../TopSectionButton/TopSectionButton';
-class TopSection extends PureComponent {
+
+export interface TopSectionProp {
+  handlerSearch: () => void;
+  handlerChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  inputValue: string;
+}
+
+class TopSection extends PureComponent<TopSectionProp> {
   render() {
+    const { handlerChange, handlerSearch, inputValue } = this.props;
     return (
       <section>
-        <TopSectionInput />
-        <TopSectionButton />
+        <TopSectionInput onChange={handlerChange} inputValue={inputValue} />
+        <TopSectionButton onClick={handlerSearch} />
       </section>
     );
   }

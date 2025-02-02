@@ -1,8 +1,15 @@
 import { PureComponent } from 'react';
-
-class TopSectionButton extends PureComponent {
+interface TopSectionButtonProp {
+  onClick: () => void;
+}
+class TopSectionButton extends PureComponent<TopSectionButtonProp> {
   render() {
-    return <button type="button">Search</button>;
+    const { onClick } = this.props;
+    return (
+      <button type="button" onClick={onClick}>
+        Search
+      </button>
+    );
   }
 }
 

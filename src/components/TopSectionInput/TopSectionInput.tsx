@@ -1,7 +1,13 @@
-import { PureComponent } from 'react';
-class TopSectionInput extends PureComponent {
+import { ChangeEvent, PureComponent } from 'react';
+
+interface TopSectionInputProp {
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  inputValue: string;
+}
+class TopSectionInput extends PureComponent<TopSectionInputProp> {
   render() {
-    return <input type="text"></input>;
+    const { onChange, inputValue } = this.props;
+    return <input type="text" value={inputValue} onChange={onChange}></input>;
   }
 }
 
