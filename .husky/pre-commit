@@ -1,1 +1,1 @@
-npm lint
+cd ./ && npx lint-staged
