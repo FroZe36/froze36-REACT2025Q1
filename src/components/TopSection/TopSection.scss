@@ -1,0 +1,23 @@
+.topSection {
+  display: inline-flex;
+  gap: 20px;
+  &__btn {
+    padding: 10px 20px;
+    font-size: 25px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  &__input {
+    width: 400px;
+    font-size: 25px;
+    padding: 5px 10px;
+    &::placeholder {
+      font-size: 18px;
+      text-align: start;
+    }
+  }
+}
