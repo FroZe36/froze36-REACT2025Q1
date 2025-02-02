@@ -13,6 +13,7 @@ class TopSectionInput extends PureComponent<TopSectionInputProp> {
         value={inputValue}
         onChange={onChange}
         placeholder="Search Pokemon name"
+        className="topSection__input"
       ></input>
     );
   }

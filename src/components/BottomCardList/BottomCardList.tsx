@@ -9,7 +9,7 @@ class BottomCardList extends PureComponent<BottomCardListProp> {
   render() {
     const { data } = this.props;
     return (
-      <ul>
+      <ul className="list">
         {data.map((item) => (
           <BottomCard starship={{ ...item }} key={item.name} />
         ))}

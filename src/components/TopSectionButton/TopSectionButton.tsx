@@ -6,7 +6,7 @@ class TopSectionButton extends PureComponent<TopSectionButtonProp> {
   render() {
     const { onClick } = this.props;
     return (
-      <button type="button" onClick={onClick}>
+      <button type="button" onClick={onClick} className="topSection__btn">
         Search
       </button>
     );

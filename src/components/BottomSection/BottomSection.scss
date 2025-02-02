@@ -1,0 +1,30 @@
+.bottomSection {
+  width: 100%;
+}
+.title {
+  font-size: 34px;
+  text-align: center;
+  color: yellowgreen;
+}
+.subtitle {
+  font-size: 26px;
+  text-align: center;
+}
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+  list-style: none;
+  justify-content: center;
+}
+.listCard {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+.cardItem {
+  text-align: left;
+  color: rgb(199, 64, 64);
+  cursor: default;
+}
