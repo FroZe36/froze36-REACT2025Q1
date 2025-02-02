@@ -7,7 +7,14 @@ interface TopSectionInputProp {
 class TopSectionInput extends PureComponent<TopSectionInputProp> {
   render() {
     const { onChange, inputValue } = this.props;
-    return <input type="text" value={inputValue} onChange={onChange}></input>;
+    return (
+      <input
+        type="text"
+        value={inputValue}
+        onChange={onChange}
+        placeholder="Search Pokemon name"
+      ></input>
+    );
   }
 }
 
