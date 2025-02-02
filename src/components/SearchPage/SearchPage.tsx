@@ -5,11 +5,13 @@ import {
   getStarships,
 } from '../../api/StarWarsService';
 import BottomSection from '../BottomSection/BottomSection';
+import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
 
 interface SearchPageState {
   inputValue: string;
   data: StarshipShortProperties[];
   loading: boolean;
+  error: null | string;
 }
 
 const localStorageKeyName = 'savedInputValue';
@@ -19,6 +21,7 @@ class SearchPage extends Component<Record<string, never>, SearchPageState> {
     inputValue: '',
     data: [],
     loading: true,
+    error: null,
   };
 
   async componentDidMount(): Promise<void> {
@@ -33,10 +36,23 @@ class SearchPage extends Component<Record<string, never>, SearchPageState> {
     this.setState({
       loading: true,
     });
-    const data = await getStarships(searchQuery);
-    if (data) {
+    try {
+      const data = await getStarships(searchQuery);
+      if (data) {
+        this.setState({
+          data: data,
+          loading: false,
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        this.setState({
+          error: error.message,
+          data: [],
+        });
+      }
+    } finally {
       this.setState({
-        data: data,
         loading: false,
       });
     }
@@ -53,16 +69,21 @@ class SearchPage extends Component<Record<string, never>, SearchPageState> {
     });
   };
   render() {
-    const { inputValue, loading, data } = this.state;
+    const { inputValue, loading, data, error } = this.state;
+
     return (
-      <main>
-        <TopSection
-          handlerChange={this.handleChange}
-          handlerSearch={this.handleSearch}
-          inputValue={inputValue}
-        />
-        <BottomSection loadingState={loading} data={data} />
-      </main>
+      <ErrorBoundary>
+        <main>
+          <TopSection
+            handlerChange={this.handleChange}
+            handlerSearch={this.handleSearch}
+            inputValue={inputValue}
+          />
+          <ErrorBoundary>
+            <BottomSection loadingState={loading} data={data} error={error} />
+          </ErrorBoundary>
+        </main>
+      </ErrorBoundary>
     );
   }
 }

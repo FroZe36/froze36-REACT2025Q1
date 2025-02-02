@@ -42,7 +42,6 @@ export const getStarships = async (searchParam: string | null = '') => {
       method: METHOD,
       headers: HEADERS,
     });
-
     if (!response.ok) {
       throw new Error(`Could not fetch ${url}, status: ${response.status}`);
     }
@@ -50,7 +49,7 @@ export const getStarships = async (searchParam: string | null = '') => {
     const data = (await response.json()) as StarshipData;
     return data.results;
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error at starWarsServiceCatch:', error);
     throw error;
   }
 };
