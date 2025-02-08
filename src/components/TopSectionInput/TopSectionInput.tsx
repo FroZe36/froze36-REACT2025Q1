@@ -12,7 +12,7 @@ const TopSectionInput = (props: TopSectionInputProp) => {
       type="text"
       value={inputValue}
       onChange={onChange}
-      placeholder="Search Pokemon name"
+      placeholder="Type name of Starship ..."
       className="topSection__input"
     />
   );

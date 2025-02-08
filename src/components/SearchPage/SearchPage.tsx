@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import TopSection from '../TopSection/TopSection';
 import {
   StarshipShortProperties,
@@ -6,6 +6,7 @@ import {
 } from '../../api/StarWarsService';
 import BottomSection from '../BottomSection/BottomSection';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 interface SearchPageState {
   inputValue: string;
@@ -14,28 +15,31 @@ interface SearchPageState {
   error: null | string;
 }
 
-const localStorageKeyName = 'savedInputValue';
-
 const SearchPage = () => {
+  const localStorageKeyName = 'savedInputValue';
+
   const [inputValue, setInputValue] =
     useState<SearchPageState['inputValue']>('');
   const [data, setData] = useState<SearchPageState['data']>([]);
   const [loading, setLoading] = useState<SearchPageState['loading']>(false);
   const [error, setError] = useState<SearchPageState['error']>(null);
+  const [storageData, setStorageData] = useLocalStorage(localStorageKeyName);
 
-  useEffect(() => {
-    const storageData = localStorage.getItem(localStorageKeyName) ?? '';
+  const initializeState = useCallback((storageData: string) => {
     setInputValue(storageData);
-    setStateResponse(storageData);
+    fetchData(storageData);
   }, []);
 
-  async function setStateResponse(searchQuery: string) {
-    setLoading(true);
+  useEffect(() => {
+    initializeState(storageData);
+  }, [storageData, initializeState]);
+
+  async function fetchData(searchQuery: string) {
+    setLoading((prevState) => !prevState);
     try {
       const data = await getStarships(searchQuery);
       if (data) {
         setData(data);
-        setLoading(false);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -43,13 +47,12 @@ const SearchPage = () => {
         setError(error.message);
       }
     } finally {
-      setLoading(false);
+      setLoading((prevState) => !prevState);
     }
   }
 
-  async function handleSearch() {
-    localStorage.setItem(localStorageKeyName, inputValue);
-    await setStateResponse(inputValue);
+  function handleSearch() {
+    setStorageData(inputValue);
   }
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     setInputValue(e.target.value.trim());
