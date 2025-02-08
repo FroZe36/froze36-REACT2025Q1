@@ -1,91 +1,71 @@
-import { ChangeEvent, Component } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import TopSection from '../TopSection/TopSection';
 import {
   StarshipShortProperties,
   getStarships,
 } from '../../api/StarWarsService';
 import BottomSection from '../BottomSection/BottomSection';
-import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 interface SearchPageState {
   inputValue: string;
-  data: StarshipShortProperties[];
+  data: StarshipShortProperties[] | [];
   loading: boolean;
   error: null | string;
 }
 
 const localStorageKeyName = 'savedInputValue';
 
-class SearchPage extends Component<Record<string, never>, SearchPageState> {
-  state = {
-    inputValue: '',
-    data: [],
-    loading: true,
-    error: null,
-  };
+const SearchPage = () => {
+  const [inputValue, setInputValue] =
+    useState<SearchPageState['inputValue']>('');
+  const [data, setData] = useState<SearchPageState['data']>([]);
+  const [loading, setLoading] = useState<SearchPageState['loading']>(false);
+  const [error, setError] = useState<SearchPageState['error']>(null);
 
-  async componentDidMount(): Promise<void> {
+  useEffect(() => {
     const storageData = localStorage.getItem(localStorageKeyName) ?? '';
-    this.setState({
-      inputValue: storageData,
-    });
-    await this.setStateResponse(storageData);
-  }
+    setInputValue(storageData);
+    setStateResponse(storageData);
+  }, []);
 
-  setStateResponse = async (searchQuery: string) => {
-    this.setState({
-      loading: true,
-    });
+  async function setStateResponse(searchQuery: string) {
+    setLoading(true);
     try {
       const data = await getStarships(searchQuery);
       if (data) {
-        this.setState({
-          data: data,
-          loading: false,
-        });
+        setData(data);
+        setLoading(false);
       }
     } catch (error) {
       if (error instanceof Error) {
-        this.setState({
-          error: error.message,
-          data: [],
-        });
+        setData([]);
+        setError(error.message);
       }
     } finally {
-      this.setState({
-        loading: false,
-      });
+      setLoading(false);
     }
-  };
-
-  handleSearch: () => void = async () => {
-    const { inputValue } = this.state;
-    localStorage.setItem(localStorageKeyName, inputValue);
-    await this.setStateResponse(inputValue);
-  };
-  handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      inputValue: e.target.value.trim(),
-    });
-  };
-  render() {
-    const { inputValue, loading, data, error } = this.state;
-
-    return (
-      <ErrorBoundary>
-        <main>
-          <TopSection
-            handlerChange={this.handleChange}
-            handlerSearch={this.handleSearch}
-            inputValue={inputValue}
-          />
-          <ErrorBoundary>
-            <BottomSection loadingState={loading} data={data} error={error} />
-          </ErrorBoundary>
-        </main>
-      </ErrorBoundary>
-    );
   }
-}
+
+  async function handleSearch() {
+    localStorage.setItem(localStorageKeyName, inputValue);
+    await setStateResponse(inputValue);
+  }
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    setInputValue(e.target.value.trim());
+  }
+  return (
+    <ErrorBoundary>
+      <main>
+        <TopSection
+          handlerChange={handleChange}
+          handlerSearch={handleSearch}
+          inputValue={inputValue}
+        />
+        <BottomSection loadingState={loading} data={data} error={error} />
+      </main>
+    </ErrorBoundary>
+  );
+};
 
 export default SearchPage;
