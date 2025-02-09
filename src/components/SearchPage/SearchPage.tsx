@@ -5,7 +5,7 @@ import BottomSection from '../BottomSection/BottomSection';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import './SearchPage.scss';
-import { useParams } from 'react-router';
+import { Outlet, useParams } from 'react-router';
 import { RouteParams } from '../../types/types';
 
 interface SearchPageState {
@@ -26,16 +26,16 @@ const SearchPage = () => {
   const [storageData, setStorageData] = useLocalStorage(localStorageKeyName);
   const { pageId } = useParams<RouteParams>();
   const initializeState = useCallback(
-    (storageData: string) => {
+    (storageData: string, pageNum: number) => {
       setInputValue(storageData);
-      fetchData(storageData, Number(pageId));
+      fetchData(storageData, pageNum);
     },
-    [pageId]
+    []
   );
 
   useEffect(() => {
-    initializeState(storageData);
-  }, [storageData, initializeState]);
+    initializeState(storageData, Number(pageId));
+  }, [storageData, initializeState, pageId]);
 
   async function fetchData(searchQuery: string, pageNum: number) {
     setLoading((prevState) => !prevState);
@@ -69,6 +69,7 @@ const SearchPage = () => {
           inputValue={inputValue}
         />
         <BottomSection loadingState={loading} data={data} error={error} />
+        <Outlet />
       </main>
     </ErrorBoundary>
   );
