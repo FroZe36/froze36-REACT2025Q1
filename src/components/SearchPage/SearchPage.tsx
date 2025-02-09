@@ -5,7 +5,7 @@ import BottomSection from '../BottomSection/BottomSection';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import './SearchPage.scss';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { RouteParams } from '../../types/types';
 
 interface SearchPageState {
@@ -25,6 +25,7 @@ const SearchPage = () => {
   const [error, setError] = useState<SearchPageState['error']>(null);
   const [storageData, setStorageData] = useLocalStorage(localStorageKeyName);
   const { pageId } = useParams<RouteParams>();
+  const navigate = useNavigate();
   const initializeState = useCallback(
     (storageData: string, pageNum: number) => {
       setInputValue(storageData);
@@ -56,6 +57,7 @@ const SearchPage = () => {
 
   function handleSearch() {
     setStorageData(inputValue);
+    navigate(`/`);
   }
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     setInputValue(e.target.value.trim());

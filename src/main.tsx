@@ -7,14 +7,20 @@ import BottomCardDetails from './components/BottomCardDetails/BottomCardDetails.
 import NotFoundPage from './components/NotFoundPage/NotFoundPage.tsx';
 
 const router = createBrowserRouter([
-  { path: '/', element: <Navigate to="starships/1" replace /> },
+  {
+    path: '/',
+    element: <Navigate to="starships/1" replace />,
+    errorElement: <NotFoundPage />,
+  },
   {
     path: '/starships/:pageId',
     element: <App />,
+    errorElement: <NotFoundPage />,
     children: [
       {
         path: '/starships/:pageId/:starshipId',
         element: <BottomCardDetails />,
+        errorElement: <NotFoundPage />,
       },
     ],
   },
