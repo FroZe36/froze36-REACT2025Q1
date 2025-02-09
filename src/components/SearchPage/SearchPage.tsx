@@ -1,17 +1,16 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import TopSection from '../TopSection/TopSection';
-import {
-  StarshipShortProperties,
-  getStarships,
-} from '../../api/StarWarsService';
+import { StarshipData, getStarships } from '../../api/StarWarsService';
 import BottomSection from '../BottomSection/BottomSection';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import './SearchPage.scss';
+import { useParams } from 'react-router';
+import { RouteParams } from '../../types/types';
 
 interface SearchPageState {
   inputValue: string;
-  data: StarshipShortProperties[] | [];
+  data: StarshipData | null;
   loading: boolean;
   error: null | string;
 }
@@ -21,30 +20,33 @@ const SearchPage = () => {
 
   const [inputValue, setInputValue] =
     useState<SearchPageState['inputValue']>('');
-  const [data, setData] = useState<SearchPageState['data']>([]);
+  const [data, setData] = useState<SearchPageState['data']>(null);
   const [loading, setLoading] = useState<SearchPageState['loading']>(false);
   const [error, setError] = useState<SearchPageState['error']>(null);
   const [storageData, setStorageData] = useLocalStorage(localStorageKeyName);
-
-  const initializeState = useCallback((storageData: string) => {
-    setInputValue(storageData);
-    fetchData(storageData);
-  }, []);
+  const { pageId } = useParams<RouteParams>();
+  const initializeState = useCallback(
+    (storageData: string) => {
+      setInputValue(storageData);
+      fetchData(storageData, Number(pageId));
+    },
+    [pageId]
+  );
 
   useEffect(() => {
     initializeState(storageData);
   }, [storageData, initializeState]);
 
-  async function fetchData(searchQuery: string) {
+  async function fetchData(searchQuery: string, pageNum: number) {
     setLoading((prevState) => !prevState);
     try {
-      const data = await getStarships(searchQuery);
+      const data = await getStarships(searchQuery, pageNum <= 0 ? 1 : pageNum);
       if (data) {
         setData(data);
       }
     } catch (error) {
       if (error instanceof Error) {
-        setData([]);
+        setData(null);
         setError(error.message);
       }
     } finally {

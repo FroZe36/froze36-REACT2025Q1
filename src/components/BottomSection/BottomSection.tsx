@@ -1,5 +1,5 @@
 import BottomCardList from '../BottomCardList/BottomCardList';
-import { StarshipShortProperties } from '../../api/StarWarsService';
+import { StarshipData } from '../../api/StarWarsService';
 import { Spinner } from '../Spinner/Spinner';
 import './BottomSection.scss';
 import ButtonError from '../ButtonError/ButtonError';
@@ -7,12 +7,11 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import Pagination from '../Pagination/Pagination';
 interface BottomSectionProp {
   loadingState: boolean;
-  data: StarshipShortProperties[];
+  data: StarshipData | null;
   error: string | null;
 }
 const BottomSection = (props: BottomSectionProp) => {
   const { data, loadingState, error } = props;
-
   return (
     <section className="bottomSection">
       <h1 className="title">Starships from The Star Wars</h1>
@@ -24,11 +23,17 @@ const BottomSection = (props: BottomSectionProp) => {
         {loadingState ? (
           <Spinner />
         ) : (
-          <BottomCardList data={data} error={error} />
+          <BottomCardList data={data?.results ?? []} error={error} />
         )}
       </ErrorBoundary>
       <div className="buttonContainer">
-        <Pagination />
+        {data?.results && data?.results.length !== 0 ? (
+          <Pagination
+            prev={data.previous}
+            next={data.next}
+            count={data.count}
+          />
+        ) : null}
         <ButtonError />
       </div>
     </section>

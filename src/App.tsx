@@ -7,7 +7,7 @@ const App = () => {
   return (
     <Routes>
       <Route
-        element={<Navigate to="/starships/1" replace />}
+        element={<Navigate to="starships/1" replace />}
         path="/"
         errorElement={<NotFoundPage />}
       />
@@ -17,11 +17,11 @@ const App = () => {
         errorElement={<NotFoundPage />}
       />
       <Route
-        path="/starships/:id"
+        path="/starships/:pageId"
         element={<SearchPage />}
         errorElement={<NotFoundPage />}
       >
-        <Route path=":name" errorElement={<NotFoundPage />} />
+        <Route path=":starshipId" errorElement={<NotFoundPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
