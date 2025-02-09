@@ -1,0 +1,13 @@
+.bottomCardDetails {
+  display: flex;
+  flex-direction: column;
+  flex: 2 0 30%;
+  padding: 10px 10px 10px 20px;
+  border: 2px solid orange;
+  .cardDetailsItem {
+    text-align: left;
+  }
+  .cardDetailsButton {
+    align-self: flex-end;
+  }
+}
