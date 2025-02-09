@@ -4,6 +4,7 @@ import { Spinner } from '../Spinner/Spinner';
 import './BottomSection.scss';
 import ButtonError from '../ButtonError/ButtonError';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import Pagination from '../Pagination/Pagination';
 interface BottomSectionProp {
   loadingState: boolean;
   data: StarshipShortProperties[];
@@ -26,7 +27,10 @@ const BottomSection = (props: BottomSectionProp) => {
           <BottomCardList data={data} error={error} />
         )}
       </ErrorBoundary>
-      <ButtonError />
+      <div className="buttonContainer">
+        <Pagination />
+        <ButtonError />
+      </div>
     </section>
   );
 };

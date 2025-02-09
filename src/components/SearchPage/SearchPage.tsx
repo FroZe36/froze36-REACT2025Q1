@@ -7,6 +7,7 @@ import {
 import BottomSection from '../BottomSection/BottomSection';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import './SearchPage.scss';
 
 interface SearchPageState {
   inputValue: string;
@@ -59,7 +60,7 @@ const SearchPage = () => {
   }
   return (
     <ErrorBoundary>
-      <main>
+      <main className="main">
         <TopSection
           handlerChange={handleChange}
           handlerSearch={handleSearch}
