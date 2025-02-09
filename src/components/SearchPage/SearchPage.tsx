@@ -5,7 +5,7 @@ import BottomSection from '../BottomSection/BottomSection';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import './SearchPage.scss';
-import { Outlet, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { RouteParams } from '../../types/types';
 
 interface SearchPageState {
@@ -69,7 +69,6 @@ const SearchPage = () => {
           inputValue={inputValue}
         />
         <BottomSection loadingState={loading} data={data} error={error} />
-        <Outlet />
       </main>
     </ErrorBoundary>
   );

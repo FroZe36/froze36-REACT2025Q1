@@ -24,8 +24,12 @@
     gap: 20px;
     list-style: none;
     justify-content: center;
-    height: 100%;
-    margin: 10px 0px;
+    flex: 0 1 70%;
+  }
+  .card {
+    border: 2px solid greenyellow;
+    padding: 5px 5px 5px 25px;
+    cursor: pointer;
   }
   .listCard {
     display: flex;
@@ -35,6 +39,11 @@
   .cardItem {
     text-align: left;
     color: rgb(199, 64, 64);
-    cursor: default;
+  }
+  .container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin: 10px 0px;
   }
 }

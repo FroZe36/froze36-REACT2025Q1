@@ -5,6 +5,7 @@ import './BottomSection.scss';
 import ButtonError from '../ButtonError/ButtonError';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import Pagination from '../Pagination/Pagination';
+import { Outlet } from 'react-router';
 interface BottomSectionProp {
   loadingState: boolean;
   data: StarshipData | null;
@@ -19,13 +20,16 @@ const BottomSection = (props: BottomSectionProp) => {
         A Starship resource is a single transport craft that has hyperdrive
         capability.
       </h2>
-      <ErrorBoundary>
-        {loadingState ? (
-          <Spinner />
-        ) : (
-          <BottomCardList data={data?.results ?? []} error={error} />
-        )}
-      </ErrorBoundary>
+      <div className="container">
+        <ErrorBoundary>
+          {loadingState ? (
+            <Spinner />
+          ) : (
+            <BottomCardList data={data?.results ?? []} error={error} />
+          )}
+        </ErrorBoundary>
+        <Outlet />
+      </div>
       <div className="buttonContainer">
         {data?.results && data?.results.length !== 0 ? (
           <Pagination
