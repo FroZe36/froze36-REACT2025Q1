@@ -6,13 +6,17 @@ import ButtonError from '../ButtonError/ButtonError';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import Pagination from '../Pagination/Pagination';
 import { Outlet } from 'react-router';
+import { FC } from 'react';
 interface BottomSectionProp {
   loadingState: boolean;
   data: StarshipData | null;
   error: string | null;
 }
-const BottomSection = (props: BottomSectionProp) => {
-  const { data, loadingState, error } = props;
+const BottomSection: FC<BottomSectionProp> = ({
+  data,
+  loadingState,
+  error,
+}) => {
   return (
     <section className="bottomSection">
       <h1 className="title">Starships from The Star Wars</h1>
@@ -31,12 +35,8 @@ const BottomSection = (props: BottomSectionProp) => {
         <Outlet />
       </div>
       <div className="buttonContainer">
-        {data?.results && data?.results.length !== 0 ? (
-          <Pagination
-            prev={data.previous}
-            next={data.next}
-            count={data.count}
-          />
+        {data?.results && data?.results.length ? (
+          <Pagination count={data.count} />
         ) : null}
         <ButtonError />
       </div>

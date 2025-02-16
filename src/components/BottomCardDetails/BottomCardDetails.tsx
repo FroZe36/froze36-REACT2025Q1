@@ -8,7 +8,7 @@ import './BottomCardDetails.scss';
 const BottomCardDetails = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<StarshipData | null>();
-  const [error, setError] = useState<null | string>();
+  const [error, setError] = useState<string | null>();
   const { starshipId } = useParams<RouteParams>();
 
   async function fetchData(searchQuery: string) {
@@ -35,14 +35,16 @@ const BottomCardDetails = () => {
     setData(null);
   };
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
   return (
     <>
       {loading ? (
         <Spinner />
       ) : (
         data && (
-          <ol className="bottomCardDetails">
+          <ol className="bottomCardDetails" data-testid="cardDetails">
             <button className="cardDetailsButton" onClick={clearData}>
               X
             </button>

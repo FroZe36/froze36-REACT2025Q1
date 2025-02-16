@@ -12,6 +12,7 @@ const ErrorMsg = () => {
       }}
       src={errorImg}
       alt="Error"
+      data-testid="errorElement"
     />
   );
 };

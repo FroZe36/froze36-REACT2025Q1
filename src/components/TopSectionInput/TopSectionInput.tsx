@@ -1,12 +1,11 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FC } from 'react';
 
 interface TopSectionInputProp {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   inputValue: string;
 }
 
-const TopSectionInput = (props: TopSectionInputProp) => {
-  const { onChange, inputValue } = props;
+const TopSectionInput: FC<TopSectionInputProp> = ({ onChange, inputValue }) => {
   return (
     <input
       type="text"

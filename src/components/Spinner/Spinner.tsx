@@ -7,6 +7,7 @@ export const Spinner = () => {
       height="300px"
       viewBox="0 0 100 100"
       preserveAspectRatio="xMidYMid"
+      data-testid="spinner"
     >
       <g transform="translate(80,50)">
         <g transform="rotate(0)">

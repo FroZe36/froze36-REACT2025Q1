@@ -1,8 +1,9 @@
+import { FC } from 'react';
+
 interface TopSectionButtonProp {
   onClick: () => void;
 }
-const TopSectionButton = (props: TopSectionButtonProp) => {
-  const { onClick } = props;
+const TopSectionButton: FC<TopSectionButtonProp> = ({ onClick }) => {
   return (
     <button type="button" onClick={onClick} className="topSection__btn">
       Search
