@@ -1,38 +1,19 @@
 import { useParams } from 'react-router';
 import { RouteParams } from '../../types/types';
 import { Spinner } from '../Spinner/Spinner';
-import { getStarship, StarshipData } from '../../api/StarWarsService';
-import { useEffect, useState } from 'react';
+import { starWarsApi, useGetStarshipQuery } from '../../api/StarWarsService';
 import './BottomCardDetails.scss';
+import { useAppDispatch } from '../../hooks/hooks';
 
 const BottomCardDetails = () => {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<StarshipData | null>();
-  const [error, setError] = useState<string | null>();
   const { starshipId } = useParams<RouteParams>();
-
-  async function fetchData(searchQuery: string) {
-    setLoading((prevState) => !prevState);
-    try {
-      const data = await getStarship(searchQuery);
-      if (data) {
-        setData(data);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        setData(null);
-        setError(error.message);
-      }
-    } finally {
-      setLoading((prevState) => !prevState);
-    }
-  }
-  useEffect(() => {
-    if (starshipId) fetchData(starshipId);
-  }, [starshipId]);
+  const dispatch = useAppDispatch();
+  const { data, isLoading, isFetching, error } = useGetStarshipQuery({
+    name: starshipId ?? '',
+  });
 
   const clearData = () => {
-    setData(null);
+    dispatch(starWarsApi.util.resetApiState());
   };
 
   if (error) {
@@ -40,7 +21,7 @@ const BottomCardDetails = () => {
   }
   return (
     <>
-      {loading ? (
+      {isLoading || isFetching ? (
         <Spinner />
       ) : (
         data && (

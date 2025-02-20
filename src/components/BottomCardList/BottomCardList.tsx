@@ -1,10 +1,12 @@
 import { FC } from 'react';
 import { StarshipShortProperties } from '../../api/StarWarsService';
 import BottomCard from '../BottomCard/BottomCard';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { SerializedError } from '@reduxjs/toolkit';
 
 interface BottomCardListProp {
   data: StarshipShortProperties[];
-  error: string | null;
+  error: FetchBaseQueryError | SerializedError | undefined;
 }
 
 const BottomCardList: FC<BottomCardListProp> = ({ data, error }) => {

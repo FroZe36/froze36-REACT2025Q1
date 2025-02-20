@@ -5,6 +5,8 @@ import App from './App.tsx';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router';
 import BottomCardDetails from './components/BottomCardDetails/BottomCardDetails.tsx';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage.tsx';
+import { Provider } from 'react-redux';
+import { store } from './redux/store.ts';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
 );
