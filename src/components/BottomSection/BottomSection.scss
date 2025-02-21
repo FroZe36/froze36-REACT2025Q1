@@ -27,9 +27,11 @@
     flex: 0 1 70%;
   }
   .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     border: 2px solid greenyellow;
     padding: 5px 5px 5px 25px;
-    cursor: pointer;
   }
   .listCard {
     display: flex;
@@ -45,5 +47,18 @@
     gap: 20px;
     align-items: flex-start;
     margin: 10px 0px;
+  }
+  .actionContainerCard {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    .actionLabel {
+      display: inline-flex;
+      gap: 8px;
+      font-size: 17px;
+      input {
+        width: 17px;
+      }
+    }
   }
 }

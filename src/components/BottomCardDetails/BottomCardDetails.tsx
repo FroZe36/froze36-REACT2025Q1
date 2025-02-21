@@ -1,19 +1,19 @@
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { RouteParams } from '../../types/types';
 import { Spinner } from '../Spinner/Spinner';
-import { starWarsApi, useGetStarshipQuery } from '../../api/StarWarsService';
+import { useGetStarshipQuery } from '../../api/StarWarsService';
 import './BottomCardDetails.scss';
-import { useAppDispatch } from '../../hooks/hooks';
 
 const BottomCardDetails = () => {
   const { starshipId } = useParams<RouteParams>();
-  const dispatch = useAppDispatch();
   const { data, isLoading, isFetching, error } = useGetStarshipQuery({
     name: starshipId ?? '',
   });
+  const { pageId } = useParams<RouteParams>();
+  const navigate = useNavigate();
 
   const clearData = () => {
-    dispatch(starWarsApi.util.resetApiState());
+    navigate(`/starships/${pageId}`);
   };
 
   if (error) {

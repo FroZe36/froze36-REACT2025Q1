@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { StarshipShortProperties } from '../../api/StarWarsService';
+import { StarshipShortProperties } from '../../types/types';
 import BottomCard from '../BottomCard/BottomCard';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';

@@ -1,9 +1,11 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { starWarsApi } from '../api/StarWarsService';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import starshipsReducer from './selectedStarshipsSlice';
 
 export const store = configureStore({
   reducer: {
+    selectedStarships: starshipsReducer,
     [starWarsApi.reducerPath]: starWarsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
