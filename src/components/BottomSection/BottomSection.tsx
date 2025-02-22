@@ -6,7 +6,7 @@ import ButtonError from '../ButtonError/ButtonError';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import Pagination from '../Pagination/Pagination';
 import { Outlet, useParams } from 'react-router';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { RouteParams } from '../../types/types';
 interface BottomSectionProp {
   storageData: string;
@@ -44,4 +44,4 @@ const BottomSection: FC<BottomSectionProp> = ({ storageData }) => {
   );
 };
 
-export default BottomSection;
+export default memo(BottomSection);

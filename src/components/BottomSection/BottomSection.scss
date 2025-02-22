@@ -52,6 +52,9 @@
     display: inline-flex;
     align-items: center;
     gap: 20px;
+    button {
+      font-size: 20px;
+    }
     .actionLabel {
       display: inline-flex;
       gap: 8px;

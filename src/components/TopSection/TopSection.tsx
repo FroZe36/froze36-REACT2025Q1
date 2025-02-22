@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, memo } from 'react';
 import TopSectionInput from '../TopSectionInput/TopSectionInput';
 import TopSectionButton from '../TopSectionButton/TopSectionButton';
 import './TopSection.scss';
@@ -21,4 +21,4 @@ const TopSection: FC<TopSectionProp> = ({
   );
 };
 
-export default TopSection;
+export default memo(TopSection);

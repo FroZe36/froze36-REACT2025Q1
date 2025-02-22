@@ -26,9 +26,9 @@ export type StarshipShortProperties = Pick<
   StarshipProperties,
   'name' | 'model' | 'manufacturer' | 'length' | 'consumables'
 >;
-export interface StarshipData {
+export interface StarshipData<T = StarshipProperties> {
   count: number;
   next: null | string;
   previous: null | string;
-  results: StarshipShortProperties[];
+  results: T[];
 }

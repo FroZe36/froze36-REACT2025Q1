@@ -1,14 +1,29 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { StarshipData } from '../types/types';
+import { StarshipData, StarshipShortProperties } from '../types/types';
 
 const BASE_URL = 'https://swapi.dev/api/';
+
+function transformData(
+  data: StarshipData
+): StarshipData<StarshipShortProperties> {
+  return {
+    ...data,
+    results: data.results.map((starship) => ({
+      name: starship.name,
+      model: starship.model,
+      manufacturer: starship.manufacturer,
+      consumables: starship.consumables,
+      length: starship.length,
+    })),
+  };
+}
 export const starWarsApi = createApi({
   reducerPath: 'starWarsApi',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   tagTypes: ['Starship'],
   endpoints: (builder) => ({
     getStarships: builder.query<
-      StarshipData,
+      StarshipData<StarshipShortProperties>,
       { searchParam: string | null; pageNum: number }
     >({
       query: ({ searchParam = '', pageNum }) => {
@@ -22,9 +37,14 @@ export const starWarsApi = createApi({
         }
         return url;
       },
+      transformResponse: (response: StarshipData) => transformData(response),
     }),
-    getStarship: builder.query<StarshipData | null, { name: string }>({
+    getStarship: builder.query<
+      StarshipData<StarshipShortProperties> | null,
+      { name: string }
+    >({
       query: ({ name }) => `starships/?search=${name}`,
+      transformResponse: (response: StarshipData) => transformData(response),
     }),
   }),
 });

@@ -1,23 +1,29 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import TopSection from '../TopSection/TopSection';
 import BottomSection from '../BottomSection/BottomSection';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import './SearchPage.scss';
 import { useNavigate } from 'react-router';
+import Flyout from '../Flyout/Flyout';
+import { useAppSelector } from '../../hooks/hooks';
+import { selectTotalStarships } from '../../redux/selectedStarshipsSlice';
 
 const SearchPage = () => {
   const localStorageKeyName = 'savedInputValue';
   const [storageData, setStorageData] = useLocalStorage(localStorageKeyName);
   const [inputValue, setInputValue] = useState<string>(storageData);
+  const selectedStarshipsLength = useAppSelector((state) =>
+    selectTotalStarships(state)
+  );
   const navigate = useNavigate();
-  function handleSearch() {
+  const handleSearch = useCallback(() => {
     setStorageData(inputValue);
     navigate(`/`);
-  }
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+  }, [setStorageData, navigate, inputValue]);
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value.trim());
-  }
+  }, []);
   return (
     <ErrorBoundary>
       <main className="main">
@@ -27,6 +33,7 @@ const SearchPage = () => {
           inputValue={inputValue}
         />
         <BottomSection storageData={storageData} />
+        {selectedStarshipsLength ? <Flyout /> : null}
       </main>
     </ErrorBoundary>
   );
