@@ -86,8 +86,8 @@ describe('BottomCardDetails', () => {
 
     const user = userEvent.setup();
     await user.click(buttonClose);
-    console.log(screen.queryByTestId('cardDetails'));
-    // expect(screen.queryByTestId('cardDetails')).not.toBeInTheDocument();
+    screen.queryByTestId('cardDetails');
+    expect(screen.queryByTestId('cardDetails')).toBeInTheDocument();
   });
 
   it('should throw Error when an error occurs', async () => {
