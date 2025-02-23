@@ -1,12 +1,12 @@
 .topSection {
   display: inline-flex;
   gap: 20px;
+  margin-bottom: 8px;
   &__btn {
     padding: 10px 20px;
     font-size: 25px;
     border-radius: 8px;
     border: 1px solid transparent;
-    cursor: pointer;
     &:hover {
       opacity: 0.8;
     }

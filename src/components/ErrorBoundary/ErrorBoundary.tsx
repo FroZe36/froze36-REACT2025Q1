@@ -1,7 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { ErrorMsg } from '../ErrorMsg/ErrorMsg';
+import ErrorMsg from '../ErrorMsg/ErrorMsg';
 
-export class ErrorBoundary extends Component<
+class ErrorBoundary extends Component<
   { children: ReactNode },
   { error: boolean }
 > {
@@ -9,11 +9,12 @@ export class ErrorBoundary extends Component<
     error: false,
   };
 
+  static getDerivedStateFromError() {
+    return { error: true };
+  }
+
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error(error, errorInfo);
-    this.setState({
-      error: true,
-    });
   }
 
   render() {
@@ -24,3 +25,5 @@ export class ErrorBoundary extends Component<
     return this.props.children;
   }
 }
+
+export default ErrorBoundary;

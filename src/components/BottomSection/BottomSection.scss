@@ -1,32 +1,49 @@
 .bottomSection {
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-.title {
-  font-size: 34px;
-  text-align: center;
-  color: yellowgreen;
-}
-.subtitle {
-  font-size: 26px;
-  text-align: center;
-}
-.list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  width: 100%;
-  list-style: none;
-  justify-content: center;
-}
-.listCard {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-}
-.cardItem {
-  text-align: left;
-  color: rgb(199, 64, 64);
-  cursor: default;
+
+  .title {
+    font-size: 34px;
+    text-align: center;
+    color: yellowgreen;
+  }
+  .subtitle {
+    font-size: 26px;
+    text-align: center;
+  }
+  :is(.title, .subtitle, .list) {
+    margin-bottom: 8px;
+  }
+  .buttonContainer {
+    display: inline-flex;
+    justify-content: space-between;
+  }
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    justify-content: center;
+    flex: 0 1 70%;
+  }
+  .card {
+    border: 2px solid greenyellow;
+    padding: 5px 5px 5px 25px;
+    cursor: pointer;
+  }
+  .listCard {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  }
+  .cardItem {
+    text-align: left;
+    color: rgb(199, 64, 64);
+  }
+  .container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin: 10px 0px;
+  }
 }
