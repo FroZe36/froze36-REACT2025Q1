@@ -25,7 +25,10 @@ const BottomCardDetails = () => {
         <Spinner />
       ) : (
         data && (
-          <ol className="bottomCardDetails" data-testid="cardDetails">
+          <ol
+            className="bottomCardDetails text__primary"
+            data-testid="cardDetails"
+          >
             <button className="cardDetailsButton" onClick={clearData}>
               X
             </button>

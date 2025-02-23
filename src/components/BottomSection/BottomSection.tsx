@@ -20,7 +20,7 @@ const BottomSection: FC<BottomSectionProp> = ({ storageData }) => {
   return (
     <section className="bottomSection">
       <h1 className="title">Starships from The Star Wars</h1>
-      <h2 className="subtitle">
+      <h2 className="subtitle text__primary">
         A Starship resource is a single transport craft that has hyperdrive
         capability.
       </h2>

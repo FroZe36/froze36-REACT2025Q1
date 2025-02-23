@@ -30,7 +30,7 @@ const BottomCard: FC<{ starship: StarshipShortProperties }> = ({
 
   return (
     <li className="card" data-testid="card">
-      <ul className="listCard">
+      <ul className="listCard text__secondary">
         <li className="cardItem" data-testid="cardItem">
           The name: {name}
         </li>
@@ -54,7 +54,7 @@ const BottomCard: FC<{ starship: StarshipShortProperties }> = ({
         >
           Details
         </button>
-        <label className="actionLabel">
+        <label className="actionLabel text__primary">
           Select Element
           <input
             type="checkbox"

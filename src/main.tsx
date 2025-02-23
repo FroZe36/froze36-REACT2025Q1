@@ -7,6 +7,7 @@ import BottomCardDetails from './components/BottomCardDetails/BottomCardDetails.
 import NotFoundPage from './components/NotFoundPage/NotFoundPage.tsx';
 import { Provider } from 'react-redux';
 import { store } from './redux/store.ts';
+import ThemeProvider from './components/theme/ThemeProvider.tsx';
 
 const router = createBrowserRouter([
   {
@@ -35,7 +36,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </Provider>
   </StrictMode>
 );

@@ -54,7 +54,7 @@ const Flyout = () => {
 
   return (
     <div className="containerFlyout">
-      <h2>{`${selectedStarshipsLength} items selected`}</h2>
+      <h2 className="text__primary">{`${selectedStarshipsLength} items selected`}</h2>
       <div className="actionContainerFlyout">
         <button onClick={handleReset} type="button">
           Unselect All

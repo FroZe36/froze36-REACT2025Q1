@@ -32,7 +32,9 @@ const Pagination: FC<PaginationProps> = ({ count }) => {
       >
         Previous
       </button>
-      <h1 data-testid="pageNumber">{pageNumber}</h1>
+      <h1 className="text__primary" data-testid="pageNumber">
+        {pageNumber}
+      </h1>
       <button
         onClick={nextClickHandler}
         type="button"
