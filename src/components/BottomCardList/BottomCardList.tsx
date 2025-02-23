@@ -6,7 +6,7 @@ import { SerializedError } from '@reduxjs/toolkit';
 
 interface BottomCardListProp {
   data: StarshipShortProperties[];
-  error: FetchBaseQueryError | SerializedError | undefined;
+  error?: FetchBaseQueryError | SerializedError | undefined;
 }
 
 const BottomCardList: FC<BottomCardListProp> = ({ data, error }) => {

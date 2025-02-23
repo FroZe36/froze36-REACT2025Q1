@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "prepare": "husky",
     "format:fix": "prettier --write .",
-    "test": "vitest --coverage --run",
+    "test": "vitest --coverage",
     "coverage": "vitest --ui"
   },
   "dependencies": {

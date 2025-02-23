@@ -45,3 +45,5 @@ afterEach(() => {
 afterAll(() => {
   server.close();
 });
+
+global.URL.createObjectURL = vi.fn();
