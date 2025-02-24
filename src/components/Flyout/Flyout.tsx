@@ -53,7 +53,7 @@ const Flyout = () => {
   }
 
   return (
-    <div className="containerFlyout">
+    <div className="containerFlyout" data-testid="flyout">
       <h2 className="text__primary">{`${selectedStarshipsLength} items selected`}</h2>
       <div className="actionContainerFlyout">
         <button onClick={handleReset} type="button">

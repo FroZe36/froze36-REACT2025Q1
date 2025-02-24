@@ -47,3 +47,4 @@ afterAll(() => {
 });
 
 global.URL.createObjectURL = vi.fn();
+global.URL.revokeObjectURL = vi.fn();
