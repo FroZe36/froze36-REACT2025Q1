@@ -81,7 +81,7 @@ describe('BottomCardDetails', () => {
     await waitFor(() => {
       expect(screen.getByTestId('cardDetails')).toBeInTheDocument();
     });
-    const buttonClose = screen.getByRole('button', { name: 'X' });
+    const buttonClose = screen.getByRole('button', { name: /x/i });
     expect(buttonClose).toBeInTheDocument();
 
     const user = userEvent.setup();
