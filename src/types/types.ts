@@ -1,6 +1,7 @@
 export type RouteParams = {
-  starshipId: string;
+  starshipId?: string;
   pageId: string;
+  search: string | null;
 };
 export interface StarshipProperties {
   name: string;

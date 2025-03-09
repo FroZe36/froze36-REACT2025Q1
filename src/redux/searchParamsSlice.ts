@@ -10,8 +10,8 @@ const initialState: SearchState = {
   pageNum: 1,
 };
 
-const searchSlice = createSlice({
-  name: 'search',
+const searchParamsSlice = createSlice({
+  name: 'searchParams',
   initialState,
   reducers: {
     setSearchParam: (state, action: PayloadAction<string>) => {
@@ -21,7 +21,12 @@ const searchSlice = createSlice({
       state.pageNum = action.payload;
     },
   },
+  selectors: {
+    selectSearchParam: (searchParams) => searchParams.searchParam,
+    selectPageNum: (searchParams) => searchParams.pageNum,
+  },
 });
 
-export const { setSearchParam, setPageNum } = searchSlice.actions;
-export default searchSlice.reducer;
+export const { setSearchParam } = searchParamsSlice.actions;
+export const { selectSearchParam } = searchParamsSlice.selectors;
+export default searchParamsSlice.reducer;

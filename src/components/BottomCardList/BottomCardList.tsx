@@ -11,7 +11,12 @@ interface BottomCardListProp {
 
 const BottomCardList: FC<BottomCardListProp> = ({ data, error }) => {
   if (error) throw error;
-  if (data.length === 0) return <h2>No starships found, by this request</h2>;
+  if (data.length === 0)
+    return (
+      <h1 className="subtitle text__primary">
+        No starships found, by this request
+      </h1>
+    );
   return (
     <ul className="list">
       {data.map((item) => (
