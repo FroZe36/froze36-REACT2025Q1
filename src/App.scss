@@ -1,6 +1,73 @@
-#root {
+@use 'styles/variables' as *;
+@use 'styles/theme' as *;
+
+.theme-light {
+  @include light-theme;
+}
+
+.theme-dark {
+  @include dark-theme;
+}
+.theme {
+  min-height: 100vh;
+  background-color: var(--primary-bg);
+}
+main {
   max-width: 1280px;
   margin: 0 auto;
   padding: 1rem;
   text-align: center;
+}
+button {
+  border-radius: 8px;
+  border: 1px solid var(--accent-color);
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  padding: 10px 20px;
+  font-size: 25px;
+  &:not(:disabled) {
+    background-color: transparent;
+    color: var(--primary-text);
+  }
+  &:not(:disabled):hover {
+    background-color: var(--accent-hover);
+    border-color: var(--accent-hover);
+  }
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+input[type='text'] {
+  background-color: var(--secondary-bg);
+  border: 2px solid var(--border-color);
+  color: var(--primary-text);
+  transition: border-color 0.3s;
+  outline: none;
+}
+input[type='text']:focus {
+  border-color: var(--accent-hover);
+}
+label:hover {
+  color: var(--accent-hover);
+}
+:is(.card, .bottomCardDetails, .containerFlyout) {
+  background-color: var(--secondary-bg);
+  border: 2px solid var(--border-color);
+}
+.text {
+  &__primary {
+    color: var(--primary-text);
+  }
+
+  &__secondary {
+    color: var(--secondary-text);
+  }
+}
+.icon {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  fill: var(--primary-text);
 }

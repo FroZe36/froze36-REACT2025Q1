@@ -34,7 +34,7 @@ describe('TopSection', () => {
 
   it('should saves the entered value to the local storage when click SearchButton', async () => {
     render(<ParentComponentForTest />);
-    const buttonSearch = screen.getByRole('button');
+    const buttonSearch = screen.getByRole('button', { name: /search/i });
     const inputSearch = screen.getByRole('textbox');
     expect(buttonSearch).toBeInTheDocument();
     expect(inputSearch).toBeInTheDocument();

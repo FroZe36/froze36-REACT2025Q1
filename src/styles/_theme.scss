@@ -1,0 +1,21 @@
+@use 'variables' as *;
+
+@mixin light-theme {
+  --primary-bg: #{$light-primary-bg};
+  --secondary-bg: #{$light-secondary-bg};
+  --primary-text: #{$light-primary-text};
+  --secondary-text: #{$light-secondary-text};
+  --accent-color: #{$light-accent-color};
+  --accent-hover: #{$light-accent-hover};
+  --border-color: #{$light-border-color};
+}
+
+@mixin dark-theme {
+  --primary-bg: #{$dark-primary-bg};
+  --secondary-bg: #{$dark-secondary-bg};
+  --primary-text: #{$dark-primary-text};
+  --secondary-text: #{$dark-secondary-text};
+  --accent-color: #{$dark-accent-color};
+  --accent-hover: #{$dark-accent-hover};
+  --border-color: #{$dark-border-color};
+}

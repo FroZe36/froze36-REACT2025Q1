@@ -1,4 +1,4 @@
-import { StarshipShortProperties } from '../../api/StarWarsService';
+import { StarshipShortProperties } from '../../types/types';
 
 export function createMockData(number: number) {
   const arr = [];

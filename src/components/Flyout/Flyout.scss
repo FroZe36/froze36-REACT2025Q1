@@ -1,0 +1,18 @@
+.containerFlyout {
+  position: fixed;
+  bottom: 0;
+  right: 1%;
+  border: 2px solid greenyellow;
+  border-bottom: none;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 5px;
+  button {
+    font-size: 20px;
+    padding: 8px;
+  }
+  .actionContainerFlyout {
+    display: inline-flex;
+    gap: 8px;
+  }
+}

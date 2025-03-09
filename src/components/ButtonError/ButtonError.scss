@@ -1,12 +1,12 @@
-.buttonError {
+button.buttonError {
   padding: 10px 50px;
   font-size: 25px;
   border-radius: 8px;
-  border: 1px solid transparent;
   cursor: pointer;
   align-self: flex-end;
   &:hover {
-    opacity: 0.8;
+    opacity: 0.9;
     background-color: rgb(124, 11, 11);
+    border-color: rgb(124, 11, 11);
   }
 }

@@ -1,32 +1,32 @@
 import BottomCardList from '../BottomCardList/BottomCardList';
-import { StarshipData } from '../../api/StarWarsService';
+import { useGetStarshipsQuery } from '../../api/StarWarsService';
 import { Spinner } from '../Spinner/Spinner';
 import './BottomSection.scss';
 import ButtonError from '../ButtonError/ButtonError';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import Pagination from '../Pagination/Pagination';
-import { Outlet } from 'react-router';
-import { FC } from 'react';
+import { Outlet, useParams } from 'react-router';
+import { FC, memo } from 'react';
+import { RouteParams } from '../../types/types';
 interface BottomSectionProp {
-  loadingState: boolean;
-  data: StarshipData | null;
-  error: string | null;
+  storageData: string;
 }
-const BottomSection: FC<BottomSectionProp> = ({
-  data,
-  loadingState,
-  error,
-}) => {
+const BottomSection: FC<BottomSectionProp> = ({ storageData }) => {
+  const { pageId } = useParams<RouteParams>();
+  const { error, isLoading, isFetching, data } = useGetStarshipsQuery({
+    searchParam: storageData,
+    pageNum: Number(pageId) <= 0 ? 1 : Number(pageId),
+  });
   return (
     <section className="bottomSection">
       <h1 className="title">Starships from The Star Wars</h1>
-      <h2 className="subtitle">
+      <h2 className="subtitle text__primary">
         A Starship resource is a single transport craft that has hyperdrive
         capability.
       </h2>
       <div className="container">
         <ErrorBoundary>
-          {loadingState ? (
+          {isLoading || isFetching ? (
             <Spinner />
           ) : (
             <BottomCardList data={data?.results ?? []} error={error} />
@@ -44,4 +44,4 @@ const BottomSection: FC<BottomSectionProp> = ({
   );
 };
 
-export default BottomSection;
+export default memo(BottomSection);

@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, memo } from 'react';
 
 interface TopSectionInputProp {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -17,4 +17,4 @@ const TopSectionInput: FC<TopSectionInputProp> = ({ onChange, inputValue }) => {
   );
 };
 
-export default TopSectionInput;
+export default memo(TopSectionInput);

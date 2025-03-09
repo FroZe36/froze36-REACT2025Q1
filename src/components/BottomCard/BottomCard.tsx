@@ -1,7 +1,13 @@
 import { useNavigate, useParams } from 'react-router';
-import { StarshipShortProperties } from '../../api/StarWarsService';
+import { StarshipShortProperties } from '../../types/types';
 import { RouteParams } from '../../types/types';
 import { FC } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import {
+  addStarship,
+  removeStarship,
+  selectStarshipByName,
+} from '../../redux/selectedStarshipsSlice';
 
 const BottomCard: FC<{ starship: StarshipShortProperties }> = ({
   starship,
@@ -9,13 +15,22 @@ const BottomCard: FC<{ starship: StarshipShortProperties }> = ({
   const { name, model, manufacturer, length, consumables } = starship;
   const navigate = useNavigate();
   const { pageId } = useParams<RouteParams>();
+  const isSelected = useAppSelector((state) =>
+    selectStarshipByName(state, name)
+  );
+  const dispatch = useAppDispatch();
+
+  const handleCheckboxChange = () => {
+    if (isSelected) {
+      dispatch(removeStarship(name));
+    } else {
+      dispatch(addStarship(starship));
+    }
+  };
+
   return (
-    <li
-      className="card"
-      data-testid="card"
-      onClick={() => navigate(`/starships/${pageId}/${name}`)}
-    >
-      <ul className="listCard">
+    <li className="card" data-testid="card">
+      <ul className="listCard text__secondary">
         <li className="cardItem" data-testid="cardItem">
           The name: {name}
         </li>
@@ -32,6 +47,22 @@ const BottomCard: FC<{ starship: StarshipShortProperties }> = ({
           Consumables: {consumables}
         </li>
       </ul>
+      <div className="actionContainerCard">
+        <button
+          type="button"
+          onClick={() => navigate(`/starships/${pageId}/${name}`)}
+        >
+          Details
+        </button>
+        <label className="actionLabel text__primary">
+          Select Element
+          <input
+            type="checkbox"
+            checked={!!isSelected}
+            onChange={handleCheckboxChange}
+          />
+        </label>
+      </div>
     </li>
   );
 };
