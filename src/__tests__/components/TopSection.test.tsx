@@ -1,39 +1,21 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import TopSection from '../../components/TopSection/TopSection';
-import { ChangeEvent, useEffect, useState } from 'react';
-import useLocalStorage from '../../hooks/useLocalStorage';
-
+import { Provider } from 'react-redux';
+import { store } from '@/redux/store';
+vi.mock('next/router', () => vi.importActual('next-router-mock'));
 describe('TopSection', () => {
   vi.spyOn(Storage.prototype, 'getItem');
   vi.spyOn(Storage.prototype, 'setItem');
 
   const localStorageKeyName = 'savedInputValue';
 
-  const ParentComponentForTest = () => {
-    const [inputValue, setInputValue] = useState('');
-    const [storageData, setStorageData] = useLocalStorage(localStorageKeyName);
-
-    useEffect(() => {
-      setInputValue(storageData);
-    }, [storageData]);
-    const handlerChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setInputValue(e.target.value);
-    };
-    const handlerSearch = () => {
-      setStorageData(inputValue);
-    };
-    return (
-      <TopSection
-        handlerSearch={handlerSearch}
-        handlerChange={handlerChange}
-        inputValue={inputValue}
-      />
-    );
-  };
-
   it('should saves the entered value to the local storage when click SearchButton', async () => {
-    render(<ParentComponentForTest />);
+    render(
+      <Provider store={store}>
+        <TopSection />
+      </Provider>
+    );
     const buttonSearch = screen.getByRole('button', { name: /search/i });
     const inputSearch = screen.getByRole('textbox');
     expect(buttonSearch).toBeInTheDocument();
@@ -51,7 +33,11 @@ describe('TopSection', () => {
   it('should component get the value from local storage upon mounting', () => {
     localStorage.setItem(localStorageKeyName, '123');
 
-    render(<ParentComponentForTest />);
+    render(
+      <Provider store={store}>
+        <TopSection />
+      </Provider>
+    );
     expect(localStorage.getItem(localStorageKeyName)).toBe('123');
     expect(localStorage.getItem).toHaveBeenCalledWith(localStorageKeyName);
   });

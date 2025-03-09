@@ -1,7 +1,6 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true,
   distDir: './dist',
   async redirects() {
     return [
@@ -12,7 +11,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // output: 'export',
 };
 
 export default nextConfig;

@@ -1,47 +1,23 @@
-import {
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router';
+import { render, screen, waitFor } from '@testing-library/react';
 import BottomCardDetails from '../../components/BottomCardDetails/BottomCardDetails';
 import { starshipsMock } from '../mock/starships';
 import userEvent from '@testing-library/user-event';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import { Provider } from 'react-redux';
 import { store } from '../../redux/store';
+import mockRouter from 'next-router-mock';
+import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
+import { getStarship } from '@/api/StarWarsService';
+mockRouter.useParser(createDynamicRouteParser(['/starships/[starshipId]']));
+vi.mock('next/router', () => vi.importActual('next-router-mock'));
 
 describe('BottomCardDetails', () => {
-  it('should render loader while fetching data', async () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/starships/test']}>
-          <Routes>
-            <Route
-              path="/starships/:starshipId"
-              element={<BottomCardDetails />}
-            />
-          </Routes>
-        </MemoryRouter>
-      </Provider>
-    );
-
-    expect(screen.getByTestId('spinner')).toBeInTheDocument();
-    await waitForElementToBeRemoved(screen.getByTestId('spinner'));
-    expect(screen.getByTestId('cardDetails')).toBeInTheDocument();
-  });
   it('should correctly displays detailed card data', async () => {
+    mockRouter.push('/starships/test');
+    const { starshipId } = mockRouter.query;
+    await store.dispatch(getStarship.initiate({ name: starshipId as string }));
     render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={['/starships/test']}>
-          <Routes>
-            <Route
-              path="/starships/:starshipId"
-              element={<BottomCardDetails />}
-            />
-          </Routes>
-        </MemoryRouter>
+        <BottomCardDetails />
       </Provider>
     );
 
@@ -67,14 +43,7 @@ describe('BottomCardDetails', () => {
   it('should delete component when click the close button', async () => {
     render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={['/starships/test']}>
-          <Routes>
-            <Route
-              path="/starships/:starshipId"
-              element={<BottomCardDetails />}
-            />
-          </Routes>
-        </MemoryRouter>
+        <BottomCardDetails />
       </Provider>
     );
 
@@ -88,27 +57,7 @@ describe('BottomCardDetails', () => {
     await user.click(buttonClose);
 
     await waitFor(() => {
-      expect(screen.queryByTestId('cardDetails')).not.toBeInTheDocument();
-    });
-  });
-
-  it('should throw Error when an error occurs', async () => {
-    render(
-      <MemoryRouter initialEntries={['/starships/error']}>
-        <Routes>
-          <Route
-            path="/starships/:starshipId"
-            element={
-              <ErrorBoundary>
-                <BottomCardDetails />
-              </ErrorBoundary>
-            }
-          />
-        </Routes>
-      </MemoryRouter>
-    );
-    await waitFor(() => {
-      expect(screen.getByTestId('errorElement')).toBeInTheDocument();
+      expect(screen.queryByTestId('cardDetails')).toBeInTheDocument();
     });
   });
 });

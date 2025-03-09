@@ -16,6 +16,8 @@ const makeStore = () =>
       getDefaultMiddleware().concat(starWarsApi.middleware),
   });
 
+export const store = makeStore();
+
 export const wrapper = createWrapper(makeStore, { debug: true });
 
 setupListeners(makeStore().dispatch);

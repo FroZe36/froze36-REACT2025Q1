@@ -1,4 +1,4 @@
-import { FormEvent, memo, useCallback, useEffect } from 'react';
+import { FormEvent, memo, useEffect } from 'react';
 import ThemedButton from '../theme/ThemedButton';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { useRouter } from 'next/router';
@@ -17,18 +17,16 @@ const TopSection = () => {
     dispatch(setSearchParam(storageData));
   }, []);
 
-  const handleSearch = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const inputValue = (
-        e.currentTarget.elements.namedItem('searchInput') as HTMLInputElement
-      ).value.trim();
-      setStorageData(inputValue);
-      dispatch(setSearchParam(inputValue));
-      router.push(`/starships/1`);
-    },
-    [dispatch, router, setStorageData]
-  );
+  const handleSearch = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push(`/starships/1`);
+    const inputValue = (
+      e.currentTarget.elements.namedItem('searchInput') as HTMLInputElement
+    ).value.trim();
+    setStorageData(inputValue);
+    dispatch(setSearchParam(inputValue));
+  };
+
   return (
     <section className={topSection}>
       <ThemedButton />

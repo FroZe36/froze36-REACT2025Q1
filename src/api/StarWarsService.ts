@@ -60,6 +60,7 @@ export const starWarsApi = createApi({
     >({
       query: ({ name }) => `starships/?search=${name}`,
       transformResponse: (response: StarshipData) => transformData(response),
+      keepUnusedDataFor: 5,
     }),
   }),
 });

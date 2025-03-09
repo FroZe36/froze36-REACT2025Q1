@@ -32,9 +32,10 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': [
         'warn',
-        { allowConstantExport: true },
+        { allowConstantExport: true, allowExportNames: ['getServerSideProps'] },
       ],
       'react-compiler/react-compiler': 'error',
+      'react-hooks/exhaustive-deps': 'off',
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
       ...next.configs.recommended.rules,
