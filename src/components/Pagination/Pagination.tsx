@@ -1,30 +1,30 @@
-import { useNavigate, useParams } from 'react-router';
-import './Pagination.scss';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { RouteParams } from '../../types/types';
-
+import { useRouter } from 'next/router';
+import styles from './Pagination.module.scss';
 interface PaginationProps {
   count: number;
 }
+const { containerPagination } = styles;
+
 const Pagination: FC<PaginationProps> = ({ count }) => {
-  const navigate = useNavigate();
-  const { pageId } = useParams<RouteParams>();
-  const [pageNumber, setPageNumber] = useState(
+  const router = useRouter();
+  const { pageId } = router.query as RouteParams;
+  const [pageNumber, setPageNumber] = useState(() =>
     Number(pageId) <= 0 || isNaN(Number(pageId)) ? 1 : Number(pageId)
   );
   const elementsPerPage = 10;
   const numberOfPages = Math.ceil(count / elementsPerPage);
-  useEffect(() => {
-    navigate(`/starships/${pageNumber}`);
-  }, [pageNumber, navigate]);
   function prevClickHandler() {
+    router.push(`/starships/${pageNumber - 1}`);
     setPageNumber((prevState) => prevState - 1);
   }
   function nextClickHandler() {
+    router.push(`/starships/${pageNumber + 1}`);
     setPageNumber((prevState) => prevState + 1);
   }
   return (
-    <div className="containerPagination">
+    <div className={containerPagination}>
       <button
         onClick={prevClickHandler}
         type="button"

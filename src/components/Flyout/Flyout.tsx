@@ -6,12 +6,14 @@ import {
   selectTotalStarships,
 } from '../../redux/selectedStarshipsSlice';
 import { StarshipShortProperties } from '../../types/types';
-import './Flyout.scss';
+import styles from './Flyout.module.scss';
 
 interface linkData {
   filename: string;
   url: string;
 }
+
+const { containerFlyout, actionContainerFlyout } = styles;
 
 const Flyout = () => {
   const dispatch = useAppDispatch();
@@ -53,9 +55,9 @@ const Flyout = () => {
   }
 
   return (
-    <div className="containerFlyout" data-testid="flyout">
+    <div className={containerFlyout} data-testid="flyout">
       <h2 className="text__primary">{`${selectedStarshipsLength} items selected`}</h2>
-      <div className="actionContainerFlyout">
+      <div className={actionContainerFlyout}>
         <button onClick={handleReset} type="button">
           Unselect All
         </button>

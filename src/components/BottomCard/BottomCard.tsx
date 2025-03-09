@@ -1,6 +1,4 @@
-import { useNavigate, useParams } from 'react-router';
-import { StarshipShortProperties } from '../../types/types';
-import { RouteParams } from '../../types/types';
+import { RouteParams, StarshipShortProperties } from '../../types/types';
 import { FC } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
@@ -8,13 +6,14 @@ import {
   removeStarship,
   selectStarshipByName,
 } from '../../redux/selectedStarshipsSlice';
+import { useRouter } from 'next/router';
 
 const BottomCard: FC<{ starship: StarshipShortProperties }> = ({
   starship,
 }) => {
   const { name, model, manufacturer, length, consumables } = starship;
-  const navigate = useNavigate();
-  const { pageId } = useParams<RouteParams>();
+  const router = useRouter();
+  const { pageId } = router.query as RouteParams;
   const isSelected = useAppSelector((state) =>
     selectStarshipByName(state, name)
   );
@@ -50,7 +49,7 @@ const BottomCard: FC<{ starship: StarshipShortProperties }> = ({
       <div className="actionContainerCard">
         <button
           type="button"
-          onClick={() => navigate(`/starships/${pageId}/${name}`)}
+          onClick={() => router.push(`/starships/${pageId}/${name}`)}
         >
           Details
         </button>

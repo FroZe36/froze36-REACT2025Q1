@@ -1,12 +1,12 @@
 import errorImg from './error.gif';
-
+import Image from 'next/image';
 const ErrorMsg = () => {
   return (
-    <img
+    <Image
       style={{
         display: 'block',
-        width: '200px',
-        height: '200px',
+        width: 200,
+        height: 200,
         objectFit: 'contain',
         margin: '0 auto',
       }}

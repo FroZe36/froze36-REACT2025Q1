@@ -15,7 +15,7 @@ export const server = setupServer(
     if (searchId === 'error') {
       return HttpResponse.error();
     }
-    if (searchId) {
+    if (searchId === 'test') {
       return HttpResponse.json({
         count: 1,
         next: null,

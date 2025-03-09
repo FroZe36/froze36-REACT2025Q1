@@ -1,20 +1,24 @@
 import BottomCardList from '../BottomCardList/BottomCardList';
 import { useGetStarshipsQuery } from '../../api/StarWarsService';
 import { Spinner } from '../Spinner/Spinner';
-import './BottomSection.scss';
 import ButtonError from '../ButtonError/ButtonError';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import Pagination from '../Pagination/Pagination';
-import { Outlet, useParams } from 'react-router';
-import { FC, memo } from 'react';
+import { FC, memo, ReactNode } from 'react';
 import { RouteParams } from '../../types/types';
+import { useRouter } from 'next/router';
+import { useAppSelector } from '@/hooks/hooks';
+import { selectSearchParam } from '@/redux/searchParamsSlice';
 interface BottomSectionProp {
-  storageData: string;
+  children?: ReactNode;
 }
-const BottomSection: FC<BottomSectionProp> = ({ storageData }) => {
-  const { pageId } = useParams<RouteParams>();
+
+const BottomSection: FC<BottomSectionProp> = ({ children }) => {
+  const router = useRouter();
+  const { pageId } = router.query as RouteParams;
+  const searchTerm = useAppSelector((state) => selectSearchParam(state));
   const { error, isLoading, isFetching, data } = useGetStarshipsQuery({
-    searchParam: storageData,
+    searchParam: searchTerm,
     pageNum: Number(pageId) <= 0 ? 1 : Number(pageId),
   });
   return (
@@ -32,7 +36,7 @@ const BottomSection: FC<BottomSectionProp> = ({ storageData }) => {
             <BottomCardList data={data?.results ?? []} error={error} />
           )}
         </ErrorBoundary>
-        <Outlet />
+        {children}
       </div>
       <div className="buttonContainer">
         {data?.results && data?.results.length ? (

@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import './ButtonError.scss';
+import styles from './ButtonError.module.scss';
 
+const { buttonError } = styles;
 const ButtonError = () => {
   const [error, setError] = useState<boolean>(false);
 
@@ -14,7 +15,7 @@ const ButtonError = () => {
     <button
       type="button"
       onClick={() => setError(!error)}
-      className="buttonError"
+      className={buttonError}
     >
       Throw Error
     </button>

@@ -1,15 +1,5 @@
 import { useContext } from 'react';
 import { ThemeContext } from './ThemeContext';
-import icons from './sprite.svg';
-
-function dataURItoBlobUrl(dataURI: string) {
-  const svg = decodeURI(dataURI).split(',')[1];
-  const blob = new Blob([svg], { type: 'image/svg+xml' });
-
-  return URL.createObjectURL(blob);
-}
-
-const blobUrl = dataURItoBlobUrl(icons);
 
 const ThemedButton = () => {
   const { theme, toogleTheme } = useContext(ThemeContext);
@@ -17,11 +7,11 @@ const ThemedButton = () => {
     <button type="button" onClick={() => toogleTheme()} className="button_icon">
       {theme === 'light' ? (
         <svg className="icon">
-          <use xlinkHref={`${blobUrl}#moon`}></use>
+          <use xlinkHref={`/sprite.svg#moon`}></use>
         </svg>
       ) : (
         <svg className="icon">
-          <use xlinkHref={`${blobUrl}#sun`}></use>
+          <use xlinkHref={`/sprite.svg#sun`}></use>
         </svg>
       )}
     </button>
