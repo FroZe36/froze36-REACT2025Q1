@@ -1,0 +1,5 @@
+.header {
+  border-bottom: 2px solid orange;
+  display: inline-flex;
+  gap: 30px;
+}
