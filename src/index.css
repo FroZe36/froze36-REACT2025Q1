@@ -24,7 +24,9 @@ button {
   font-family: inherit;
   background-color: transparent;
   cursor: pointer;
-  transition: background-color 0.25s, border-color 0.25s;
+  transition:
+    background-color 0.25s,
+    border-color 0.25s;
 }
 button:hover {
   background-color: #646cff;
@@ -40,4 +42,30 @@ a {
 }
 a.active {
   color: red;
+}
+@keyframes rainbow-border {
+  0% {
+    border-color: rgb(255, 0, 0);
+  }
+  14% {
+    border-color: rgb(255, 165, 0);
+  }
+  28% {
+    border-color: rgb(255, 255, 0);
+  }
+  42% {
+    border-color: rgb(0, 255, 0);
+  }
+  57% {
+    border-color: rgb(0, 127, 255);
+  }
+  71% {
+    border-color: rgb(0, 0, 255);
+  }
+  85% {
+    border-color: rgb(139, 0, 255);
+  }
+  100% {
+    border-color: rgb(255, 0, 0);
+  }
 }

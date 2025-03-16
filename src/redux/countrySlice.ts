@@ -15,13 +15,13 @@ interface CountriesData {
 
 type CommonName = Pick<CountriesData['name'], 'common'>['common'];
 
-interface countriesState {
+interface CountriesState {
   countries: CommonName[];
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
   error: null | string;
 }
 
-const initialState: countriesState = {
+const initialState: CountriesState = {
   countries: [],
   loading: 'idle',
   error: null,
@@ -54,5 +54,12 @@ const countrySlice = createSlice({
         state.error = action.error.message as string;
       });
   },
+  selectors: {
+    selectCountries: ({ countries }) => countries,
+    selectCountriesLoading: ({ loading }) => loading,
+  },
 });
+
+export const { selectCountries, selectCountriesLoading } =
+  countrySlice.selectors;
 export default countrySlice.reducer;

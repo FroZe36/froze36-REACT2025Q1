@@ -1,10 +1,14 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import styles from '../lib/styles/form.module.css';
-import { formSchema, FormSchema } from '../lib/form.validators';
+import { formSchema } from '../lib/form.validators';
 import { z } from 'zod';
 import { useNavigate } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../redux/hooksRedux';
+import { selectCountries } from '../redux/countrySlice';
 import { fetchCountries } from '../redux/countrySlice';
+import { addForm } from '../redux/formsSlice';
+import { toBase64 } from '../lib/base64';
+import { ModifiedFormSchemaAge } from '../lib/types';
 
 const { form, form__items, error, form__block } = styles;
 
@@ -12,20 +16,18 @@ const FormUncontrolled = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const dispatch = useAppDispatch();
-  const { countries } = useAppSelector((state) => state.countries);
+  const countries = useAppSelector((state) => selectCountries(state));
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchCountries());
   }, []);
 
-  const handlerForm = (e: FormEvent) => {
+  const handlerForm = async (e: FormEvent) => {
     e.preventDefault();
     if (formRef.current) {
       const formData = new FormData(formRef.current);
-      const data: Omit<FormSchema, 'age'> & {
-        age: number | string;
-      } = {
+      const data: ModifiedFormSchemaAge = {
         name: formData.get('name') as string,
         age: formData.get('age') === '' ? '' : Number(formData.get('age')),
         email: formData.get('email') as string,
@@ -36,10 +38,10 @@ const FormUncontrolled = () => {
         acceptTerms: Boolean(formData.get('acceptTerms')) as boolean,
         country: formData.get('country') as string,
       };
-      console.log(data);
       try {
         formSchema.parse(data);
         setErrors({});
+        dispatch(addForm({ ...data, picture: await toBase64(data.picture) }));
         navigate('/');
       } catch (error) {
         if (error instanceof z.ZodError) {
