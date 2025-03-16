@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 const passwordSchema = z
   .string()
-  .min(8, 'Password must be at least 8 characters long')
   .refine(
     (val) => /[A-Z]/.test(val),
     'Password must contain at least one uppercase letter'
@@ -40,15 +39,41 @@ export const formSchema = z
         'You must accept the terms and conditions'
       ),
     picture: z
-      .instanceof(File)
-      .refine(
-        (file) => file.size <= 2 * 1024 * 1024,
-        'File size must be less than 2MB'
-      )
-      .refine(
-        (file) => ['image/jpeg', 'image/png'].includes(file.type),
-        'Only JPEG and PNG images are allowed'
-      ),
+      .union([z.custom<FileList>(), z.instanceof(File)])
+      .superRefine((data, ctx) => {
+        const validateFile = (file: File) => {
+          if (file.size > 2 * 1024 * 1024) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'File size must be less than 2MB',
+            });
+          }
+          if (!['image/jpeg', 'image/png'].includes(file.type)) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'Only JPEG and PNG images are allowed',
+            });
+          }
+        };
+        if (data instanceof FileList) {
+          if (data.length === 0) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'Picture is required',
+            });
+          } else {
+            validateFile(data[0]);
+          }
+        } else if (data instanceof File) {
+          if (data.name === '') {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'Picture is required',
+            });
+          }
+          validateFile(data);
+        }
+      }),
     country: z.string().min(1, { message: 'Country is required' }),
   })
   .refine((data) => data.password === data.confirmPassword, {

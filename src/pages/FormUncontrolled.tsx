@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import styles from '../lib/styles/form.module.css';
 import { formSchema } from '../lib/form.validators';
 import { z } from 'zod';
@@ -9,12 +9,18 @@ import { fetchCountries } from '../redux/countrySlice';
 import { addForm } from '../redux/formsSlice';
 import { toBase64 } from '../lib/base64';
 import { ModifiedFormSchemaAge } from '../lib/types';
+import { getStrength } from '../lib/getStrength';
 
-const { form, form__items, error, form__block } = styles;
+const { form, form__items, error, form__block, form__block_password } = styles;
 
 const FormUncontrolled = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [passwordStrength, setPasswordStrength] = useState(0);
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const strength = getStrength(e.target.value);
+    setPasswordStrength(strength);
+  };
   const dispatch = useAppDispatch();
   const countries = useAppSelector((state) => selectCountries(state));
   const navigate = useNavigate();
@@ -27,24 +33,21 @@ const FormUncontrolled = () => {
     e.preventDefault();
     if (formRef.current) {
       const formData = new FormData(formRef.current);
-      const data: ModifiedFormSchemaAge = {
-        name: formData.get('name') as string,
+      const data = {
+        ...Object.fromEntries(formData.entries()),
         age: formData.get('age') === '' ? '' : Number(formData.get('age')),
-        email: formData.get('email') as string,
-        password: formData.get('password') as string,
-        confirmPassword: formData.get('confirmPassword') as string,
-        gender: formData.get('gender') as string,
-        picture: formData.get('picture') as File,
-        acceptTerms: Boolean(formData.get('acceptTerms')) as boolean,
-        country: formData.get('country') as string,
-      };
+        acceptTerms: Boolean(formData.get('acceptTerms')),
+      } as ModifiedFormSchemaAge;
       try {
         formSchema.parse(data);
         setErrors({});
-        dispatch(addForm({ ...data, picture: await toBase64(data.picture) }));
+        dispatch(
+          addForm({ ...data, picture: await toBase64(data.picture as File) })
+        );
         navigate('/');
       } catch (error) {
         if (error instanceof z.ZodError) {
+          console.log(error);
           const errorMessages: Record<string, string> = {};
           error.errors.forEach((err) => {
             if (err.path && !errorMessages[err.path[0]]) {
@@ -77,10 +80,23 @@ const FormUncontrolled = () => {
         </label>
         {errors.email && <span className={error}>{errors.email}</span>}
       </div>
-      <div className={form__block}>
+      <div className={`${form__block} ${form__block_password}`}>
         <label className={form__items}>
-          Password: <input type="password" id="password" name="password" />
+          Password:
+          <input
+            type="password"
+            id="password"
+            name="password"
+            onChange={handlePasswordChange}
+          />
         </label>
+        <div className="progressBar">
+          <div
+            className="progressBar__fill"
+            style={{ width: `${(passwordStrength / 4) * 100}%` }}
+            data-strength={passwordStrength}
+          ></div>
+        </div>
         {errors.password && <span className={error}>{errors.password}</span>}
       </div>
       <div className={form__block}>
@@ -97,11 +113,16 @@ const FormUncontrolled = () => {
           <label>Choose Gender: </label>
           <div className={form__items}>
             <div className={form__items}>
-              <input type="radio" name="gender" id="male" value="Male" />
+              <input type="radio" name="gender" id="male" defaultValue="Male" />
               <label htmlFor="male">Male</label>
             </div>
             <div className={form__items}>
-              <input type="radio" name="gender" id="female" value="Female" />
+              <input
+                type="radio"
+                name="gender"
+                id="female"
+                defaultValue="Female"
+              />
               <label htmlFor="female">Female</label>
             </div>
           </div>
@@ -143,7 +164,9 @@ const FormUncontrolled = () => {
         </datalist>
         {errors.country && <span className={error}>{errors.country}</span>}
       </div>
-      <button type="submit">Submit Form</button>
+      <button type="submit" formNoValidate>
+        Submit Form
+      </button>
     </form>
   );
 };
