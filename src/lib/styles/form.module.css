@@ -1,5 +1,5 @@
 .form {
-  flex: 0 1 30%;
+  flex: 0 1 300px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -35,7 +35,7 @@
   }
 }
 .section {
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
   gap: 20px;
 }
