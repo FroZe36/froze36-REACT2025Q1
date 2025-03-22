@@ -1,10 +1,22 @@
-.search {
-  display: inline-flex;
+.container {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 20px;
-  input {
-    padding: 5px;
-    font-size: 20px;
-    width: 300px
+  .container_block {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    input {
+      padding: 5px;
+      font-size: 20px;
+      width: 300px
+    }
+    select {
+      font-size: 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      padding: 10px 20px;
+    }
   }
 }

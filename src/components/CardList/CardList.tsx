@@ -1,40 +1,26 @@
-import { useEffect, useState } from 'react';
-import { countriesApi } from '../../api/countriesApi';
+import { FC } from 'react';
 import { ModifiedCountriesData } from '../../types';
 import Card from '../Card/Card';
 import styles from './cardList.module.css';
 
-const { list } = styles;
+const { list, titleRed } = styles;
 
-const CardList = () => {
-  const [data, setData] = useState<ModifiedCountriesData[] | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+interface CardListProps {
+  loading: boolean;
+  error: string | null;
+  filterData: ModifiedCountriesData[] | null;
+}
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const countries = await countriesApi();
-      if (countries) {
-        setData(countries);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
+const CardList: FC<CardListProps> = ({ loading, error, filterData }) => {
   if (error) return error;
-  if (loading) return <h2>Loading</h2>;
+  if (loading) return <h1 className={titleRed}>Loading...</h1>;
+  if (!loading && filterData?.length === 0) {
+    return <h1 className={titleRed}>No Countries find</h1>;
+  }
   return (
     <ul className={list}>
-      {data &&
-        data.map((card) => {
+      {filterData &&
+        filterData.map((card) => {
           return <Card key={card.name} {...card} />;
         })}
     </ul>

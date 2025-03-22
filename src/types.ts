@@ -14,3 +14,4 @@ export interface CountriesData {
 export type ModifiedCountriesData = Omit<CountriesData, 'name'> & {
   name: string;
 };
+// export type regionData = Pick<CountriesData, 'name'>;
