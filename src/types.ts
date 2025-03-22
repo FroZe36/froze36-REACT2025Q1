@@ -10,8 +10,8 @@ export interface CountriesData {
     alt?: string;
   };
 }
-
 export type ModifiedCountriesData = Omit<CountriesData, 'name'> & {
   name: string;
 };
-// export type regionData = Pick<CountriesData, 'name'>;
+export type KeysOfSort = 'name' | 'population';
+export type TypesOfSort = 'asc' | 'desc';
