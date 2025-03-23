@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo, useCallback, useMemo } from 'react';
 import { ModifiedCountriesData } from '../../types';
 import styles from './card.module.css';
 
@@ -10,16 +10,19 @@ const Card: FC<
     setStorageData: (item: string) => void;
   }
 > = ({ name, region, population, flags, storageData, setStorageData }) => {
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     setStorageData(name);
-  };
+  }, [name, setStorageData]);
+
+  const borderColor = useMemo(
+    () => `${storageData.includes(name) ? 'yellow' : null}`,
+    [storageData, name]
+  );
 
   return (
     <li
       className={card}
-      style={{
-        borderColor: `${storageData.includes(name) ? 'yellow' : null}`,
-      }}
+      style={{ borderColor: borderColor }}
       onClick={handleClick}
     >
       <h3>Name: {name}</h3>
@@ -31,4 +34,4 @@ const Card: FC<
     </li>
   );
 };
-export default Card;
+export default memo(Card);

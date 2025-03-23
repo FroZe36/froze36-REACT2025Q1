@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, memo } from 'react';
 import styles from './search.module.css';
 import { KeysOfSort, TypesOfSort } from '../../types';
 
@@ -31,6 +31,7 @@ const Search: FC<SearchProps> = ({
   const handleChangeByRegion = (e: ChangeEvent<HTMLSelectElement>) => {
     filterByRegion(e.target.value);
   };
+
   return (
     <div className={container}>
       <label className={container_block}>
@@ -101,4 +102,4 @@ const Search: FC<SearchProps> = ({
     </div>
   );
 };
-export default Search;
+export default memo(Search);

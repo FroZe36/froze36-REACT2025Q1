@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import './App.css';
 import CardList from './components/CardList/CardList';
 import Search from './components/Search/Search';
@@ -8,9 +8,6 @@ import { KeysOfSort, ModifiedCountriesData, TypesOfSort } from './types';
 function App() {
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState<ModifiedCountriesData[] | null>(null);
-  const [filterData, setFilterData] = useState<ModifiedCountriesData[] | null>(
-    null
-  );
   const [uniqueRegions, setUniqueRegions] = useState<string[] | null>(null);
   const [filterRegion, setFilterRegion] = useState('All');
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,32 +34,31 @@ function App() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (data) {
-      let newData = data;
-      if (filterRegion !== 'All') {
-        newData = newData.filter(({ region }) => region === filterRegion);
-      }
-      if (sortKey) {
-        newData = [...newData].sort((a, b) => {
-          if (sortKey === 'name') {
-            return sortType === 'asc'
-              ? a.name.localeCompare(b.name)
-              : b.name.localeCompare(a.name);
-          } else if (sortKey === 'population') {
-            return sortType === 'asc'
-              ? a.population - b.population
-              : b.population - a.population;
-          }
-          return 0;
-        });
-      }
-      newData = newData.filter(({ name }) =>
-        name.toLowerCase().includes(searchValue.toLowerCase())
-      );
-      setFilterData(newData);
+  const filterData = useMemo(() => {
+    if (!data) return null;
+
+    let newData = data;
+    if (filterRegion !== 'All') {
+      newData = newData.filter(({ region }) => region === filterRegion);
     }
-  }, [searchValue, data, filterRegion, sortKey, sortType]);
+    if (sortKey) {
+      newData = [...newData].sort((a, b) => {
+        if (sortKey === 'name') {
+          return sortType === 'asc'
+            ? a.name.localeCompare(b.name)
+            : b.name.localeCompare(a.name);
+        } else if (sortKey === 'population') {
+          return sortType === 'asc'
+            ? a.population - b.population
+            : b.population - a.population;
+        }
+        return 0;
+      });
+    }
+    return newData.filter(({ name }) =>
+      name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }, [data, filterRegion, sortKey, sortType, searchValue]);
 
   useEffect(() => {
     if (data) {
@@ -71,17 +67,23 @@ function App() {
     }
   }, [data]);
 
-  const changeSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-  };
-  const filterAndUpdateByRegion = (region: string) => {
+  const changeSearchHandler = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setSearchValue(e.target.value);
+    },
+    []
+  );
+  const filterAndUpdateByRegion = useCallback((region: string) => {
     setFilterRegion(region);
     setSearchValue('');
-  };
-  const sortData = (key: KeysOfSort) => {
-    setSortKey(key);
-    setSortType(sortType === 'asc' ? 'desc' : 'asc');
-  };
+  }, []);
+  const sortData = useCallback(
+    (key: KeysOfSort) => {
+      setSortKey(key);
+      setSortType(sortType === 'asc' ? 'desc' : 'asc');
+    },
+    [sortType]
+  );
 
   return (
     <main>

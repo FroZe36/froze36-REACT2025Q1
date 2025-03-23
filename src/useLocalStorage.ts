@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-
+import { useState, useEffect, useCallback, useMemo } from 'react';
 const useLocalStorage = <T = string>(key: string, initialValue: T[] = []) => {
   const [storageData, setStorageData] = useState<T[]>(() => {
     const storedData = localStorage.getItem(key);
@@ -10,16 +9,17 @@ const useLocalStorage = <T = string>(key: string, initialValue: T[] = []) => {
     localStorage.setItem(key, JSON.stringify(storageData));
   }, [key, storageData]);
 
-  const addItem = (item: T) => {
+  const addItem = useCallback((item: T) => {
     setStorageData((prevData) => {
       if (prevData.includes(item)) {
         return prevData;
       }
       return [...prevData, item];
     });
-  };
+  }, []);
+  const memoizedStorageData = useMemo(() => storageData, [storageData]);
 
-  return [storageData, addItem] as const;
+  return [memoizedStorageData, addItem] as const;
 };
 
 export default useLocalStorage;

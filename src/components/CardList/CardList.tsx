@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { ModifiedCountriesData } from '../../types';
 import Card from '../Card/Card';
 import styles from './cardList.module.css';
@@ -36,4 +36,4 @@ const CardList: FC<CardListProps> = ({ loading, error, filterData }) => {
     </ul>
   );
 };
-export default CardList;
+export default memo(CardList);
