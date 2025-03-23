@@ -57,7 +57,6 @@ function App() {
           return 0;
         });
       }
-      console.log(sortType, sortKey);
       newData = newData.filter(({ name }) =>
         name.toLowerCase().includes(searchValue.toLowerCase())
       );
