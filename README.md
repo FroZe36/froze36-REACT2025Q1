@@ -1,54 +1,138 @@
-# React + TypeScript + Vite
+# RSSchool
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Perfomance
 
-Currently, two official plugins are available:
+# Отчет о производительности
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Тестируемая операция
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**Ввод текста в поле поиска: "A"**
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Commit Duration**: 2.3 с
+- **Render Duration**: 8.8 мс
+- **Время рендеринга компонентов**:
+  - `App`: <0.1 мс
+  - `Search`: 0.2 мс
+  - `CardList`: 8.6 мс
+  - `Cards`: <0.1 – 0.2 мс
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Графики профилирования
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Flame Graph**:
+  ![Flame Graph](./src/assets/before/flame1.png)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- **Ranked Chart**:
+  ![Ranked Chart](./src/assets/before/ranked1.png)
+
+---
+
+## Тестируемая операция
+
+**Ввод текста в поле поиска: "AS"**
+
+- **Commit Duration**: 5.7 с
+- **Render Duration**: 0.6 мс
+- **Время рендеринга компонентов**:
+  - `App`: 0.1 мс
+  - `Search`: <0.1 мс
+  - `CardList`: 0.4 мс
+  - `Cards`: <0.1 – 0.1 мс
+
+## Графики профилирования
+
+- **Flame Graph**:
+  ![Flame Graph](./src/assets/before/flame2.png)
+
+- **Ranked Chart**:
+  ![Ranked Chart](./src/assets/before/ranked2.png)
+
+---
+
+## Тестируемая операция
+
+**Ввод текста в поле поиска: "ASD"**
+
+- **Commit Duration**: 7.7 с
+- **Render Duration**: 1 мс
+- **Время рендеринга компонентов**:
+  - `App`: 0.3 мс
+  - `Search`: 0.4 мс
+  - `CardList`: 0.3 мс
+  - `Cards`: <0.1 – 0.1 мс
+
+## Графики профилирования
+
+- **Flame Graph**:
+  ![Flame Graph](./src/assets/before/flame3.png)
+
+- **Ranked Chart**:
+  ![Ranked Chart](./src/assets/before/ranked3.png)
+
+---
+
+## Тестируемая операция
+
+**Фильтрация по региону: All → Americans**
+
+- **Commit Duration**: 11.2 с
+- **Render Duration**: 15.1 мс
+- **Время рендеринга компонентов**:
+  - `App`: 0.1 мс
+  - `Search`: 0.2 мс
+  - `CardList`: 14.8 мс
+  - `Cards`: <0.1 – 0.5 мс
+
+## Графики профилирования
+
+- **Flame Graph**:
+  ![Flame Graph](./src/assets/before/flame4.png)
+
+- **Ranked Chart**:
+  ![Ranked Chart](./src/assets/before/ranked4.png)
+
+---
+
+## Тестируемая операция
+
+**Сортировка по имени (ASC)**
+
+- **Commit Duration**: 14.1 с
+- **Render Duration**: 5.4 мс
+- **Время рендеринга компонентов**:
+  - `App`: 0.1 мс
+  - `Search`: 0.2 мс
+  - `CardList`: 5.1 мс
+  - `Cards`: <0.1 – 0.2 мс
+
+## Графики профилирования
+
+- **Flame Graph**:
+  ![Flame Graph](./src/assets/before/flame5.png)
+
+- **Ranked Chart**:
+  ![Ranked Chart](./src/assets/before/ranked5.png)
+
+---
+
+## Тестируемая операция
+
+**Сортировка по населению (DESC)**
+
+- **Commit Duration**: 17.7 с
+- **Render Duration**: 3 мс
+- **Время рендеринга компонентов**:
+
+  - `App`: <0.1 мс
+  - `Search`: 0.2 мс
+  - `CardList`: 2.8 мс
+  - `Cards`: 0.1 мс
+
+  ## Графики профилирования
+
+- **Flame Graph**:
+  ![Flame Graph](./src/assets/before/flame6.png)
+
+- **Ranked Chart**:
+  ![Ranked Chart](./src/assets/before/ranked6.png)
