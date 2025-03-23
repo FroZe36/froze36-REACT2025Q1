@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  .container_block {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    input {
+      padding: 5px;
+      font-size: 20px;
+      width: 300px;
+    }
+    select {
+      font-size: 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  }
+  .container_button {
+    display: inline-flex;
+    gap: 5px;
+    align-items: center;
+    .triangle {
+      transform: translateY(7px);
+      width: 15px;
+      height: 25px;
+    }
+    .triangle_desceding {
+      transform: translateY(-4px) rotateX(180deg);
+    }
+  }
+}
