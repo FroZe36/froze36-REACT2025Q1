@@ -1,0 +1,4 @@
+{
+  "src/**/*.{ts,tsx,css}": "npm run format:fix",
+  "src/**/*.{ts,tsx}": "npm run lint"
+}
