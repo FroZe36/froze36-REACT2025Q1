@@ -34,9 +34,20 @@ const BASE_URL = 'https://swapi.dev/api/starships/';
 const METHOD = 'GET';
 const HEADERS = { 'Content-type': 'application/json' };
 
-export const getStarships = async (searchParam: string | null = '') => {
-  const url = searchParam ? `${BASE_URL}?search=${searchParam}` : BASE_URL;
-
+export const getStarships = async (
+  searchParam: string | null = '',
+  pageNum: number
+) => {
+  let url;
+  if (searchParam && pageNum) {
+    url = `${BASE_URL}?search=${searchParam}&page=${pageNum}`;
+  } else if (searchParam) {
+    url = `${BASE_URL}?search=${searchParam}`;
+  } else if (pageNum) {
+    url = `${BASE_URL}?page=${pageNum}`;
+  } else {
+    url = BASE_URL;
+  }
   try {
     const response = await fetch(url, {
       method: METHOD,
@@ -47,9 +58,26 @@ export const getStarships = async (searchParam: string | null = '') => {
     }
 
     const data = (await response.json()) as StarshipData;
-    return data.results;
+    return data;
   } catch (error) {
-    console.error('Error at starWarsServiceCatch:', error);
+    console.error('Error at getStarships:', error);
+    throw error;
+  }
+};
+export const getStarship = async (name: string) => {
+  const url = `${BASE_URL}?search=${name}`;
+  try {
+    const response = await fetch(url, {
+      method: METHOD,
+      headers: HEADERS,
+    });
+    if (!response.ok) {
+      throw new Error(`Could not fetch ${url}, status: ${response.status}`);
+    }
+    const data = (await response.json()) as StarshipData;
+    return data;
+  } catch (error) {
+    console.error('Error at getStarship:', error);
     throw error;
   }
 };
