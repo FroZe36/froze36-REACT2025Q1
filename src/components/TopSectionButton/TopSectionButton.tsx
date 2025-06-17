@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 interface TopSectionButtonProp {
   onClick: () => void;
@@ -11,4 +11,4 @@ const TopSectionButton: FC<TopSectionButtonProp> = ({ onClick }) => {
   );
 };
 
-export default TopSectionButton;
+export default memo(TopSectionButton);

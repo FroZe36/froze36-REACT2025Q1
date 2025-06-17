@@ -27,9 +27,10 @@
     flex: 0 1 70%;
   }
   .card {
-    border: 2px solid greenyellow;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 5px 5px 5px 25px;
-    cursor: pointer;
   }
   .listCard {
     display: flex;
@@ -38,12 +39,29 @@
   }
   .cardItem {
     text-align: left;
-    color: rgb(199, 64, 64);
   }
   .container {
     display: flex;
     gap: 20px;
     align-items: flex-start;
     margin: 10px 0px;
+  }
+  .actionContainerCard {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    button {
+      font-size: 20px;
+    }
+    .actionLabel {
+      display: inline-flex;
+      cursor: pointer;
+      gap: 8px;
+      font-size: 18px;
+      input {
+        width: 17px;
+        cursor: pointer;
+      }
+    }
   }
 }
